@@ -11,6 +11,39 @@ dfDatos = pd.read_csv('http://raw.githubusercontent.com/gcastano/datasets/main/g
 st.metric("***Registros Totales***", len(dfDatos))
 st.dataframe(dfDatos, use_container_width=True)
 
+# crear filtros 
+continent_filter = st.multiselect(
+    "Selecciona los continentes:",
+    options=dfDatos['continent'].unique(),
+    default=dfDatos['continent'].unique()
+)
+
+# Campo de entrada para el pais
+country_filter = st.text_input(
+    "Escriba el nombre del País (opcional):",
+    value= ""
+)
+
+# Rango de edad
+age_range = st.slider( 
+    "Selecciona el Rango de Edad:", 
+    min_value=int(dfDatos['median_age_year'].min()), 
+    max_value=int(dfDatos['median_age_year'].max()), 
+    value=(int(dfDatos['median_age_year'].min()), int(dfDatos['median_age_year'].max()))
+)
+
+# Filtrar los datos basados en las selecciones
+filtered_data = dfDatos[
+    (dfDatos['continent'].isin(continent_filter)) &
+    (dfDatos['country'].str.contains(country_filter, case=False, na=False)) &
+    (dfDatos['median_age_year'] >= age_range[0]) &
+    (dfDatos['median_age_year'] <= age_range[1])
+]
+
+# Mostrar la tabla de los registros filtrados y la métrica actualizada 
+st.metric("***Registros Totales Filtrados***", len(filtered_data)) 
+st.dataframe(filtered_data, use_container_width=True)
+
 # Crear un gráfico de dispersión con colores basados en el continente
 fig_scatter = px.scatter(dfDatos, x='mean_house_income', y='lifeExpectancy', color='continent', 
                          title='Gráfico de Dispersión del Ingreso Medio del Hogar vs Esperanza de Vida',
