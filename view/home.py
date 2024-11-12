@@ -51,9 +51,12 @@ Usas herramientas de software antiguas o poco eficientes o procesos en los que u
     )
         with imagen_columna:
             image_path = "./image/images.jpg"
+            lottie_path = "./animation/Animation.json"
             try:
                 image = Image.open(image_path)
                 st.image(image, "Imagen cargada correctamente")
+                animation = get(lottie_path)
+                st_lottie(animation)
             except Exception as e:
                 st.error(f"No se pudo cargar la imagen: {e}")
 
