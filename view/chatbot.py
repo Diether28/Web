@@ -25,8 +25,8 @@ model = genai.GenerativeModel("gemini-1.5-flash",tools="code_execution")
 # Función para generar respuestas
 def generate_response(prompt):
     response = model.generate_content(prompt, generation_config = genai.GenerationConfig(
-        #max_output_tokens=1000,
-        temperature=2.0,
+        max_output_tokens=1000,
+        temperature=0.5,
     ))
     return response.text
 
