@@ -20,7 +20,7 @@ api_key = cipher_suite.decrypt(encrypted_api_key).decode()
 
 # Configurar el modelo Gemini
 genai.configure(api_key=api_key)
-model = genai.GenerativeModel("gemini-1.5-flash")
+model = genai.GenerativeModel("gemini-1.5-flash",tools="code_execution")
 
 # Función para generar respuestas
 def generate_response(prompt):
